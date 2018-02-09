@@ -1,0 +1,17 @@
+{
+  "name": "one-search-server",
+  "version": "1.0.0",
+  "main": "server.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "babel-node ./src/server.js"
+  },
+  "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "dotenv": "^5.0.0",
+    "express": "^4.16.2",
+    "request": "^2.83.0"
+  }
+}

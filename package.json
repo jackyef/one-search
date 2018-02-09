@@ -1,0 +1,13 @@
+{
+  "name": "one-search",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "yarn build-client && yarn start-server",
+    "build": "yarn build-client",
+    "start-client": "cd ./src/client && yarn start",
+    "build-client": "cd ./src/client && yarn build",
+    "start-server": "cd ./src/server && yarn start"
+  },
+  "dependencies": {}
+}
