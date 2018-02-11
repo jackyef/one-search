@@ -92,7 +92,7 @@ app.get('/lazada', (req, res) => {
     qs: {
       q: keyword,
     },
-    method: 'POST',
+    method: 'GET',
   }, (err, response, body) => {
     if(err) {
       console.log("== ERROR ==");
@@ -113,6 +113,49 @@ app.get('/lazada', (req, res) => {
     } catch (err) {
       console.log("ERROR when parsing JSON")
       console.log(err.message);
+      res.send(err.message);
+      return;
+    }
+
+    res.setHeader('Content-Type', 'application/json');
+    res.send(data);
+  })
+})
+
+const blibliDomain = 'www.blibli.com';
+app.get('/blibli', (req, res) => {
+  const keyword = req.query.keyword;
+    
+  request({
+    url: `https://${blibliDomain}/jual/${keyword}`,
+    method: 'GET',
+    headers: {
+      'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.75 Safari/537.36',
+    },
+  }, (err, response, body) => {
+    if(err) {
+      console.log("== ERROR ==");
+      console.log("Request", req);
+      console.log("message:", err.message);
+      res.status(500);
+      res.send(err.message);
+      return;
+    }
+
+    const toFind = '"itemListElement":[';
+    const startIndex = body.indexOf(toFind) + toFind.length - 1;
+    const endIndex = body.indexOf('</script>', startIndex);
+    let temp1 = body.substring(startIndex, endIndex);
+    temp1 = temp1.substring(0, temp1.lastIndexOf('}'));
+
+    let data = [];
+    let temp = temp1.replace(/(\:.*)(\".*)(\")(.*\")/gi, '$1$2\\$3$4'); //fix blibli json data 
+    try {
+      data = JSON.parse(temp);
+    } catch (err) {
+      console.log("ERROR when parsing JSON")
+      console.log(err.message);
+      console.log("BODY LENGTH", temp.length);
       res.send(err.message);
       return;
     }
