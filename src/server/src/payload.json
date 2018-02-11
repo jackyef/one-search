@@ -1,0 +1,174 @@
+{
+  "item_shop_ids": [
+    {
+      "itemid": 363233277,
+      "campaignid": null,
+      "shopid": 16247150,
+      "adsid": null,
+      "ads_keyword": "s",
+      "logisticid": [
+        122500,
+        89003
+      ],
+      "deduction_info": "aG5vdXF0dXFiMnBxcXBjdY8W6Nj2F9pe24WZSmD0kZ1J2nvpWg5SiqV2IrDy2FTzdfJ5e0BVmOWh/+awedD"
+    },
+    {
+      "itemid": 276541046,
+      "campaignid": null,
+      "shopid": 7823531,
+      "adsid": null,
+      "ads_keyword": "s",
+      "logisticid": [
+        95334
+      ],
+      "deduction_info": "aG5vdXF0dXFiMnBxcXBjdXdiZGExUjplwBI97Jxsk55ryctIDcKiE4H35ukJgfg6SG7SJB54EZZ38GqZFTg"
+    },
+    {
+      "itemid": 752925432,
+      "shopid": 5354681,
+      "logisticid": [
+        137276,
+        106949
+      ]
+    },
+    {
+      "itemid": 910793548,
+      "shopid": 5354681
+    },
+    {
+      "itemid": 905459415,
+      "shopid": 55455043,
+      "logisticid": [
+        116539,
+        102951
+      ]
+    },
+    {
+      "itemid": 894674099,
+      "shopid": 55166895,
+      "logisticid": [
+        106181,
+        159726
+      ]
+    },
+    {
+      "itemid": 82284811,
+      "campaignid": null,
+      "shopid": 7823531,
+      "adsid": null,
+      "ads_keyword": "s",
+      "logisticid": [
+        89853
+      ],
+      "deduction_info": "aG5vdXF0dXFiMnBxcXBjdVmwI8ff4NNGIlnlUJ4m1/NF4gjz5vMgOncybAtTf470xcVaQQA2IbODHfS7vrw"
+    },
+    {
+      "itemid": 886356745,
+      "shopid": 54862592,
+      "logisticid": [
+        131647,
+        156672
+      ]
+    },
+    {
+      "itemid": 881021590,
+      "shopid": 44711049,
+      "logisticid": [
+        98447,
+        106071
+      ]
+    },
+    {
+      "itemid": 866085215,
+      "shopid": 24332358,
+      "logisticid": [
+        120474
+      ]
+    },
+    {
+      "itemid": 834637408,
+      "shopid": 31538936,
+      "logisticid": [
+        148635,
+        94240
+      ]
+    },
+    {
+      "itemid": 63916921,
+      "campaignid": null,
+      "shopid": 5292125,
+      "adsid": null,
+      "ads_keyword": "s",
+      "logisticid": [
+        110226,
+        124352,
+        90536,
+        89094
+      ],
+      "deduction_info": "aG5vdXF0dXFiMnBxcXBjdT/bLtg6OrLpoU8S/TFu897rGP775Rm9y+7vfFmfTqEo5nDmrfyj1EuJpXxWr/y"
+    },
+    {
+      "itemid": 780577318,
+      "shopid": 24332358,
+      "logisticid": [
+        141344
+      ]
+    },
+    {
+      "itemid": 446626062,
+      "shopid": 26680484,
+      "logisticid": [
+        81630
+      ]
+    },
+    {
+      "itemid": 232039947,
+      "shopid": 5385698,
+      "logisticid": [
+        150539
+      ]
+    },
+    {
+      "itemid": 903025156,
+      "shopid": 53707001,
+      "logisticid": [
+        103544
+      ]
+    },
+    {
+      "itemid": 103056980,
+      "campaignid": null,
+      "shopid": 7823531,
+      "adsid": null,
+      "ads_keyword": "s",
+      "logisticid": [
+        117243
+      ],
+      "deduction_info": "aG5vdXF0dXFiMnBxcXBjdY0p+zC61zcK59xFUuAH07qg1bAK1ookUE5f1G/ycNpwxGfaM5CWk3KRNQhgFDu"
+    },
+    {
+      "itemid": 908273211,
+      "shopid": 55603901,
+      "logisticid": [
+        107539,
+        131138
+      ]
+    },
+    {
+      "itemid": 906972200,
+      "shopid": 55455043,
+      "logisticid": [
+        143543,
+        130606
+      ]
+    },
+    {
+      "itemid": 886389313,
+      "shopid": 54592923,
+      "logisticid": [
+        80269,
+        106500
+      ]
+    }
+  ]
+}
