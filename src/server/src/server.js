@@ -83,6 +83,45 @@ app.get('/bl', (req, res) => {
   })
 })
 
+const lazadaDomain = 'www.lazada.co.id';
+app.get('/lazada', (req, res) => {
+  const keyword = req.query.keyword;
+    
+  request({
+    url: `https://${lazadaDomain}/catalog/?`,
+    qs: {
+      q: keyword,
+    },
+    method: 'POST',
+  }, (err, response, body) => {
+    if(err) {
+      console.log("== ERROR ==");
+      console.log("Request", req);
+      console.log("message:", err.message);
+      res.status(500);
+      res.send(err.message);
+      return;
+    }
+
+    const toFind = 'window.pageData=';
+    const startIndex = body.indexOf(toFind) + toFind.length;
+    const endIndex = body.indexOf('</script>', startIndex);
+    let data = {};
+
+    try {
+      data = JSON.parse(body.substring(startIndex, endIndex));
+    } catch (err) {
+      console.log("ERROR when parsing JSON")
+      console.log(err.message);
+      res.send(err.message);
+      return;
+    }
+
+    res.setHeader('Content-Type', 'application/json');
+    res.send(data);
+  })
+})
+
 const shopeeDomain = 'shopee.co.id';
 app.get('/shopee', (req, res) => {
   const keyword = req.query.keyword;
