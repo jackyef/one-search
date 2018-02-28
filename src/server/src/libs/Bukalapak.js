@@ -38,12 +38,24 @@ const Bukalapak = {
           url: `https://${blDomain}/products?`,
           qs: payload
         }).then(body => {
-          let data = JSON.parse(body);
-          
-          return data;
+          let raw = JSON.parse(body);
+
+          return raw.data.map(product => {
+            return {
+              id: product.id,
+              name: product.name,
+              url: product.url,
+              image: product.images.large_urls[0],
+              price: product.price,
+              shopName: product.store.name,
+            }
+          });
         })
       })
       .catch(err => {
+        console.log('[Bukalapak Error] Error when getting products');
+        console.log('Message', err.message);
+  
         return err;
       })
   },

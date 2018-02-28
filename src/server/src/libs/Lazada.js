@@ -17,7 +17,16 @@ const Lazada = {
       const endIndex = body.indexOf('</script>', startIndex);
       const data = JSON.parse(body.substring(startIndex, endIndex));
   
-      return data;
+      return data.mods.listItems.map(product => {
+        return {
+          id: product.nid,
+          name: product.name,
+          url: product.productUrl,
+          image: product.image,
+          price: +product.price,
+          shopName: product.sellerName,
+        }
+      });
     })
     .catch(err => {
       console.log('[Lazada Error] Error when getting token');

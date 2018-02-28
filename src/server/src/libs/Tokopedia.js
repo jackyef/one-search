@@ -29,12 +29,26 @@ const Tokopedia = {
         console.log("[Tokopedia Ace Api] ERROR when parsing JSON")
         console.log(err.message);
   
-        return Promise.reject(err.message);
+        throw err;
       }
   
-      return Promise.resolve(products);
+      return products.map(product => {
+        return {
+          id: product.product_id,
+          name: product.product_name,
+          url: product.product_url,
+          image: product.product_image_full,
+          price: product.product_price,
+          shopName: product.shop_name,
+        }
+      });
     })
-    .catch(err => Promise.reject(err));
+    .catch(err => {
+      console.log('[Tokopedia Ace Error] Error when getting token');
+      console.log('Message', err.message);
+
+      return err;
+    });
   },
   
   getGqlProducts: keyword => {
