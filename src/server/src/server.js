@@ -9,6 +9,8 @@ import bodyParser from 'body-parser';
 
 import Tokopedia from './libs/Tokopedia';
 import Bukalapak from './libs/Bukalapak';
+import Lazada from './libs/Lazada';
+import Blibli from './libs/Blibli';
 
 let app = express();
 
@@ -50,89 +52,26 @@ app.get('/bl', (req, res) => {
     .catch(err => res.send(err));
 })
 
-const lazadaDomain = 'www.lazada.co.id';
 app.get('/lazada', (req, res) => {
   const keyword = req.query.keyword;
     
-  request({
-    url: `https://${lazadaDomain}/catalog/?`,
-    qs: {
-      q: keyword,
-    },
-    method: 'GET',
-  }, (err, response, body) => {
-    if(err) {
-      console.log("== ERROR ==");
-      console.log("Request", req);
-      console.log("message:", err.message);
-      res.status(500);
-      res.send(err.message);
-      return;
-    }
+  res.setHeader('Content-Type', 'application/json');
 
-    const toFind = 'window.pageData=';
-    const startIndex = body.indexOf(toFind) + toFind.length;
-    const endIndex = body.indexOf('</script>', startIndex);
-    let data = {};
-
-    try {
-      data = JSON.parse(body.substring(startIndex, endIndex));
-    } catch (err) {
-      console.log("ERROR when parsing JSON")
-      console.log(err.message);
-      res.send(err.message);
-      return;
-    }
-
-    res.setHeader('Content-Type', 'application/json');
-    res.send(data);
-  })
+  Lazada.getProducts(keyword)
+    .then(data => res.send(data))
+    .catch(err => res.send(err));
 })
 
-const blibliDomain = 'www.blibli.com';
 app.get('/blibli', (req, res) => {
   const keyword = req.query.keyword;
-    
-  request({
-    url: `https://${blibliDomain}/jual/${keyword}`,
-    method: 'GET',
-    headers: {
-      'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.75 Safari/537.36',
-    },
-  }, (err, response, body) => {
-    if(err) {
-      console.log("== ERROR ==");
-      console.log("Request", req);
-      console.log("message:", err.message);
-      res.status(500);
-      res.send(err.message);
-      return;
-    }
 
-    const toFind = '"itemListElement":[';
-    const startIndex = body.indexOf(toFind) + toFind.length - 1;
-    const endIndex = body.indexOf('</script>', startIndex);
-    let temp1 = body.substring(startIndex, endIndex);
-    temp1 = temp1.substring(0, temp1.lastIndexOf('}'));
-
-    let data = [];
-    let temp = temp1.replace(/(\:.*)(\".*)(\")(.*\")/gi, '$1$2\\$3$4'); //fix blibli json data 
-    try {
-      data = JSON.parse(temp);
-    } catch (err) {
-      console.log("ERROR when parsing JSON")
-      console.log(err.message);
-      console.log("BODY LENGTH", temp.length);
-      res.send(err.message);
-      return;
-    }
-
-    res.setHeader('Content-Type', 'application/json');
-    res.send(data);
-  })
+  res.setHeader('Content-Type', 'application/json');
+  
+  Blibli.getProducts(keyword)
+    .then(data => res.send(data))
+    .catch(err => res.send(err));
 })
 
-const shopeeDomain = 'shopee.co.id';
 app.get('/shopee', (req, res) => {
   const keyword = req.query.keyword;
     
