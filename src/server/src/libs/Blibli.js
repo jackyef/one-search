@@ -35,7 +35,7 @@ const Blibli = {
           url: product.url,
           image: temp2 + product.image.substring(product.image.indexOf('/images/catalog') + 1),
           price: +product.offers.price,
-          shopName: 'N/A for blibli',
+          shopName: 'Blibli',
         }
       });
     }).catch(err => {
