@@ -5,13 +5,14 @@ import axios from 'axios';
 import 'unify-react-mobile/build/styles.css';
 
 import TextField from '../../components/TextField';
+import Image from '../../components/Image';
 
 import searchIcon from './assets/ic_search_black_24px.svg';
 import './styles.css';
 
 import mockProducts from './__mocks__/productsB';
 
-const HOSTNAME = `http://${window.location.host}` || 'http://lite.devel-go.tkpd:9001';
+const HOSTNAME = `http://${window.location.host}` || 'http://localhost:9001';
 
 class Search extends Component {
   constructor(props) {
@@ -90,7 +91,7 @@ class Search extends Component {
 
   renderResult() {
     let { result, activeTabIndex } = this.state;
-    // result = mockProducts;
+    result = mockProducts;
 
     let tabItems = [];
     let allProductData = [];
@@ -123,8 +124,19 @@ class Search extends Component {
             key={`product-result-${i}`}
             subheader={product.name}
           >
-            <div>Harga: {product.price}</div>
-            <div>Lihat di {product.source}</div>
+            <div className='search-result-product--container'>
+              <Image 
+                width={120}
+                height={120}
+                className='search-result-product--image' 
+                src={product.image} 
+                alt={`${product.name} | ${product.source}`} />
+              <div className='search-result-product--info'>
+                <div className='search-result-product--info--price'>{product.price}</div>
+                <div className='search-result-product--info--shop'>Nama penjual: {product.shopName}</div>
+              </div>
+            </div>
+            <div className='search-result-product--link'>Lihat di {product.source} ></div>
           </Card>
         )
       })
