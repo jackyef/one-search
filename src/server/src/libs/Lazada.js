@@ -1,5 +1,6 @@
 import request from 'request-promise';
 import url from 'url';
+import StringFormatter from './helpers/StringFormatter';
 
 const lazadaDomain = 'www.lazada.co.id';
 
@@ -23,8 +24,9 @@ const Lazada = {
           name: product.name,
           url: product.productUrl,
           image: product.image,
-          price: +product.price,
+          price: `Rp ${StringFormatter.thousandSeparator(String(product.price))}`,
           shopName: product.sellerName,
+          source: 'Lazada',
         }
       });
     })

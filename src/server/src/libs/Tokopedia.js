@@ -10,7 +10,7 @@ const Tokopedia = {
       device: 'android',
       source: 'apps',
       unique_id: 123,
-      rows: 20,
+      rows: 50,
       q: keyword,
     }
   
@@ -40,6 +40,7 @@ const Tokopedia = {
           image: product.product_image_full,
           price: product.product_price,
           shopName: product.shop_name,
+          source: 'Tokopedia',
         }
       });
     })

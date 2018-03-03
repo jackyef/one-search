@@ -13,7 +13,6 @@ class Header extends Component {
       backgroundColor: '#42B549',
       WebkitBoxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.15)',
       boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.15)',
-      display: '-ms-flexbox',
       display: 'flex',
       msFlexAlign: 'center',
       alignItems: 'center',

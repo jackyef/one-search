@@ -1,5 +1,6 @@
 import request from 'request-promise';
 import url from 'url';
+import StringFormatter from './helpers/StringFormatter';
 
 const blDomain = 'api.bukalapak.com';
 
@@ -28,7 +29,7 @@ const Bukalapak = {
         if(!token) throw err;
   
         const payload = { 
-          limit: 20,
+          limit: 50,
           offset: 0,
           keywords: keyword,
           access_token: token
@@ -46,8 +47,9 @@ const Bukalapak = {
               name: product.name,
               url: product.url,
               image: product.images.large_urls[0],
-              price: product.price,
+              price: `Rp ${StringFormatter.thousandSeparator(String(product.price))}`,
               shopName: product.store.name,
+              source: 'Bukalapak',
             }
           });
         })

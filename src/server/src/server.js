@@ -3,6 +3,7 @@ require('dotenv').config();
 import path from 'path';
 import https from 'https';
 import rj from 'request-json';
+import request from 'request';
 import querystring from 'querystring';
 import express from 'express';
 import bodyParser from 'body-parser';
@@ -72,6 +73,7 @@ app.get('/blibli', (req, res) => {
     .catch(err => res.send(err));
 })
 
+const shopeeDomain = 'shopee.co.id';
 app.get('/shopee', (req, res) => {
   const keyword = req.query.keyword;
     

@@ -1,5 +1,6 @@
 import request from 'request-promise';
 import url from 'url';
+import StringFormatter from './helpers/StringFormatter';
 
 const blibliDomain = 'www.blibli.com';
 
@@ -34,8 +35,9 @@ const Blibli = {
           name: product.name,
           url: product.url,
           image: temp2 + product.image.substring(product.image.indexOf('/images/catalog') + 1),
-          price: +product.offers.price,
+          price: `Rp ${StringFormatter.thousandSeparator(String(+product.offers.price))}`,
           shopName: 'Blibli',
+          source: 'Blibli',
         }
       });
     }).catch(err => {
