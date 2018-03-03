@@ -1,0 +1,29 @@
+.search-input {
+  font-size: 16px;
+  width: 100%;
+  position: relative;
+  top: -6px;
+  outline: none;
+  border: none;
+}
+
+.search-result-container {
+  height: calc(100vh - 210px);
+  overflow-y: hidden;
+}
+
+.search-result-container--title {
+  margin-bottom: 12px;
+}
+
+.search-result-container--products {
+  height: calc(100vh - 262px);
+  overflow-y: scroll;
+}
+
+.search-result-container--products--b {
+  height: calc(100vh - 262px);
+  overflow-y: scroll;
+  -webkit-box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.35);
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.35);
+}

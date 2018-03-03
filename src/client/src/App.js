@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { BottomNav } from 'unify-react-mobile';
 
 import Home from './routes/Home';
-import Search from './routes/Search';
+import { SearchA, SearchB } from './routes/Search';
 import About from './routes/About';
 import Header from './components/Header';
 
@@ -14,9 +14,15 @@ import contactIcon from './assets/ic_contacts_black_24px.svg';
 import searchIcon from './assets/ic_search_black_24px.svg';
 
 class App extends Component {
+  constructor(props){
+    super(props);
+
+    this.Search = Math.random() > .5 ? SearchA : SearchB; // simple A/B testing
+  }
+
   state = {
-    activeContentIndex: 0,
-    activeContentName: 'Home'
+    activeContentIndex: 1,
+    activeContentName: 'Search'
   }
 
   handleBottomNavHomeChange = () => {
@@ -34,7 +40,8 @@ class App extends Component {
   renderContent() {
     switch(this.state.activeContentName) {
       case 'Home': return <Home />;
-      case 'Search': return <Search />;
+      // case 'Search': return <this.Search />;
+      case 'Search': return <SearchB />;
       case 'About': return <About />;
       default: return <Home />;
     }
@@ -42,6 +49,10 @@ class App extends Component {
 
   render() {
     const { activeContentIndex, activeContentName } = this.state;
+    const spacerStyle = {
+      height: '52px',
+    }
+
     return (
       <div>
         <Header 
@@ -57,6 +68,7 @@ class App extends Component {
             { key: 2, icon: contactIcon, iconActive: contactIcon, text: 'About', onClick: this.handleBottomNavContactChange },
           ]} indexActive={activeContentIndex}
         />
+        <div style={spacerStyle} />
       </div>
     );
   }

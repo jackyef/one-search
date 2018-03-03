@@ -18,6 +18,7 @@ class Header extends Component {
       alignItems: 'center',
       padding: '16px',
       fontSize: '1.15em',
+      zIndex: 30,
     }
 
     if (fixed) style.position = 'fixed';
