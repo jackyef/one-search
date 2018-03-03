@@ -50,12 +50,14 @@
   display: block;
   width: 120px;
   height: 120px;
-  border-radius: 15px;
+  border-radius: 10px;
+  object-fit: contain;
 }
 .search-result-product--info {
   display: block;
   margin-left: 8px;
   flex: 1;
+  width: calc(100% - 150px);
 }
 .search-result-product--info--price {
   display: block;
@@ -64,7 +66,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  width: calc(100% - 8px);
+  width: 100%;
 }
 .search-result-product--info--shop {
   display: block;
@@ -73,5 +75,13 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  width: calc(100% - 8px);
+  width: 100%;
+}
+.search-result-product--empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  color: #777;
+  font-weight: 200;
 }

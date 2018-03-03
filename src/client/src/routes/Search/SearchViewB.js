@@ -5,26 +5,25 @@ import axios from 'axios';
 import 'unify-react-mobile/build/styles.css';
 
 import TextField from '../../components/TextField';
-import Image from '../../components/Image';
+import ImageElement from '../../components/ImageElement';
 
 import searchIcon from './assets/ic_search_black_24px.svg';
 import './styles.css';
 
-import mockProducts from './__mocks__/productsB';
-
-const HOSTNAME = `http://${window.location.host}` || 'http://localhost:9001';
+// import mockProducts from './__mocks__/productsB';
 
 class Search extends Component {
   constructor(props) {
     super(props);
 
-    this.handleSearchSubmit = _.debounce(this.handleSearchSubmit, 1000);
+    this.handleSearchSubmit = _.debounce(this.handleSearchSubmit, 500, { leading: true });
   }
 
   state = {
     activeTabIndex: 0,
     keyword: '',
     loading: false,
+    error: false,
     submittedKeyword: '',
     result: {},
   }
@@ -42,56 +41,69 @@ class Search extends Component {
   }
 
   handleSearchSubmit = () => {
-    const { keyword } = this.state;
+    const { keyword, loading } = this.state;
 
-    if (!keyword) return false;
+    if (!keyword || loading) return false;
 
     this.setState({ loading: true, submittedKeyword: keyword, result: {} });
     
-    axios.get(`${HOSTNAME}/tkpd-ace?keyword=${this.state.keyword}`, {
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-      }
-    }).then(res => this.setState(prevState => { 
-      const data = res.data;
-      return { result: { ...prevState.result, Tokopedia: data } };
-    }))
-
-    axios.get(`${HOSTNAME}/bl?keyword=${this.state.keyword}`, {
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-      }
-    }).then(res => this.setState(prevState => { 
-      const data = res.data;
-      return { result: { ...prevState.result, Bukalapak: data } };
-    }))
-
-    axios.get(`${HOSTNAME}/blibli?keyword=${this.state.keyword}`, {
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-      }
-    }).then(res => this.setState(prevState => { 
-      const data = res.data;
-      return { result: { ...prevState.result, Blibli: data } };
-    }))
-
-    axios.get(`${HOSTNAME}/lazada?keyword=${this.state.keyword}`, {
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-      }
-    }).then(res => this.setState(prevState => { 
-      const data = res.data;
-      return { result: { ...prevState.result, Lazada: data } };
-    }))
+    Promise.all([
+      axios.get(`/tkpd-ace?keyword=${this.state.keyword}`, {
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+        }
+      }).then(res => this.setState(prevState => { 
+        const data = res.data;
+        return { result: { ...prevState.result, Tokopedia: data } };
+      })),
+      axios.get(`/bl?keyword=${this.state.keyword}`, {
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+        }
+      }).then(res => this.setState(prevState => { 
+        const data = res.data;
+        return { result: { ...prevState.result, Bukalapak: data } };
+      })),
+      axios.get(`/blibli?keyword=${this.state.keyword}`, {
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+        }
+      }).then(res => this.setState(prevState => { 
+        const data = res.data;
+        return { result: { ...prevState.result, Blibli: data } };
+      })),
+      axios.get(`/lazada?keyword=${this.state.keyword}`, {
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+        }
+      }).then(res => this.setState(prevState => { 
+        const data = res.data;
+        return { result: { ...prevState.result, Lazada: data } };
+      })),
+    ]).then(() => {
+      this.setState({ loading: false, error: false });
+    }).catch(() => {
+      this.setState({ loading: false, error: true });
+    })
   }
 
   handleChangeResultTab = (element, item) => {
     this.setState({ activeTabIndex: item.index || 0 });
   }
 
+  renderEmptyProduct() {
+    const { loading } = this.state;
+
+    return (
+      <div className='search-result-product--empty'>
+        {loading ? 'loading...' : 'Tidak ada hasil pencarian'}
+      </div>
+    )
+  }
+
   renderResult() {
     let { result, activeTabIndex } = this.state;
-    result = mockProducts;
+    // result = mockProducts;
 
     let tabItems = [];
     let allProductData = [];
@@ -100,7 +112,7 @@ class Search extends Component {
       tabItems.push({
         key: `search-tab-${key}`,
         text: key,
-        count: result[key].length,
+        count: result[key].length || undefined,
       });
       allProductData = [...allProductData, ...result[key]];
     }
@@ -109,7 +121,7 @@ class Search extends Component {
       {
         key: 'search-tab-All',
         text: 'All',
-        count: allProductData.length,
+        count: allProductData.length || undefined,
       }, 
       ...tabItems,
     ];
@@ -125,7 +137,7 @@ class Search extends Component {
             subheader={product.name}
           >
             <div className='search-result-product--container'>
-              <Image 
+              <ImageElement
                 width={120}
                 height={120}
                 className='search-result-product--image' 
@@ -133,15 +145,15 @@ class Search extends Component {
                 alt={`${product.name} | ${product.source}`} />
               <div className='search-result-product--info'>
                 <div className='search-result-product--info--price'>{product.price}</div>
-                <div className='search-result-product--info--shop'>Nama penjual: {product.shopName}</div>
+                {product.source !== 'Blibli' && <div className='search-result-product--info--shop'>Penjual: {product.shopName}</div>}
               </div>
             </div>
-            <div className='search-result-product--link'>Lihat di {product.source} ></div>
+            <div className='search-result-product--link'>
+              <a href={product.url} target='_blank' rel='noopener noreferrer'>Lihat di {product.source} ></a>
+            </div>
           </Card>
         )
       })
-    } else {
-      return;
     }
 
     return (
@@ -151,7 +163,7 @@ class Search extends Component {
           indexActive={this.state.activeTabIndex}
           onItemClick={this.handleChangeResultTab}
         />
-        <div className='search-result-container--products--b'>{products}</div>
+        <div className='search-result-container--products--b'>{products || this.renderEmptyProduct()}</div>
       </div>
     )
   }
@@ -163,7 +175,7 @@ class Search extends Component {
           <TextField
             type="text" 
             className='search-input'
-            placeholder="Enter keyword here..." 
+            placeholder="Cari produk di sini..." 
             onChange={this.handleSearchChange}
             onKeyDown={this.handleSearchKeyDown} 
             hasButton

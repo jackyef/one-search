@@ -47,8 +47,8 @@ class ImageElement extends Component {
     const { loading, opacity } = this.state;
     const { alt, className, width, height, src } = this.props;
     const style = {
-      width: `${width}px`,
-      height: `${height}px`,
+      width: width ? `${width}px` : '100%',
+      height: height ? `${height}px` : 'auto',
       transition: '.2s ease-in-out',
       opacity
     }

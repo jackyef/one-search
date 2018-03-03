@@ -24,7 +24,7 @@ const Lazada = {
           name: product.name,
           url: product.productUrl,
           image: product.image,
-          price: `Rp ${StringFormatter.thousandSeparator(String(product.price))}`,
+          price: `Rp ${StringFormatter.thousandSeparator(String(+product.price))}`,
           shopName: product.sellerName,
           source: 'Lazada',
         }

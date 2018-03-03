@@ -18,26 +18,49 @@ class App extends Component {
     super(props);
 
     this.Search = Math.random() > .5 ? SearchA : SearchB; // simple A/B testing
+    window.onpopstate = () => {
+      this.handleRouting();
+    }
   }
 
   state = {
-    activeContentIndex: 1,
-    activeContentName: 'Search'
+    activeContentIndex: 0,
+    activeContentName: 'Home'
+  }
+
+  componentDidMount() {
+    this.handleRouting();
+  }
+  
+  handleRouting() {
+    // TODO: use react-router for routing
+    const path = window.location.pathname;
+    if (path.includes('search')) {
+      this.setState({ activeContentIndex: 1, activeContentName: 'Search' })
+    } else if (path.includes('about')) {
+      this.setState({ activeContentIndex: 2, activeContentName: 'About' })
+    } else {
+      this.setState({ activeContentIndex: 0, activeContentName: 'Home' })
+    }
   }
 
   handleBottomNavHomeChange = () => {
-    this.setState({ activeContentIndex: 0,activeContentName: 'Home'})
+    this.setState({ activeContentIndex: 0, activeContentName: 'Home' })
+    window.history.pushState(null, 'Home', '/');
   }
-
+  
   handleBottomNavSearchChange = () => {
-    this.setState({ activeContentIndex: 1,activeContentName: 'Search'})
+    this.setState({ activeContentIndex: 1, activeContentName: 'Search' })
+    window.history.pushState(null, 'Search', '/search');
   }
   
   handleBottomNavContactChange = () => {
-    this.setState({ activeContentIndex: 2,activeContentName: 'About'})
+    this.setState({ activeContentIndex: 2, activeContentName: 'About' })
+    window.history.pushState(null, 'About', '/about');
   }
 
   renderContent() {
+    // TODO: use react-router for routing
     switch(this.state.activeContentName) {
       case 'Home': return <Home />;
       // case 'Search': return <this.Search />;
@@ -50,7 +73,7 @@ class App extends Component {
   render() {
     const { activeContentIndex, activeContentName } = this.state;
     const spacerStyle = {
-      height: '52px',
+      height: '36px',
     }
 
     return (
