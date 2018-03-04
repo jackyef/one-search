@@ -7,13 +7,15 @@ import request from 'request';
 import querystring from 'querystring';
 import express from 'express';
 import bodyParser from 'body-parser';
-
+import compression from 'compression';
 import Tokopedia from './libs/Tokopedia';
 import Bukalapak from './libs/Bukalapak';
 import Lazada from './libs/Lazada';
 import Blibli from './libs/Blibli';
 
 let app = express();
+
+app.use(compression());
 
 app.use('/', express.static(path.join(__dirname, '../../client/build')));
 app.use('/search', express.static(path.join(__dirname, '../../client/build')));
