@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { BottomNav } from 'unify-react-mobile';
 
 import Home from './routes/Home';
-import { SearchA, SearchB } from './routes/Search';
+import { SearchB } from './routes/Search';
 import About from './routes/About';
 import Header from './components/Header';
 
@@ -17,7 +17,7 @@ class App extends Component {
   constructor(props){
     super(props);
 
-    this.Search = Math.random() > .5 ? SearchA : SearchB; // simple A/B testing
+    // this.Search = Math.random() > .5 ? SearchA : SearchB; // simple A/B testing
     window.onpopstate = () => {
       this.handleRouting();
     }

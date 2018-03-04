@@ -11,7 +11,7 @@ import ImageElement from '../../components/ImageElement';
 import searchIcon from './assets/ic_search_black_24px.svg';
 import './styles.css';
 
-import mockProducts from './__mocks__/productsB';
+// import mockProducts from './__mocks__/productsB';
 
 class Search extends Component {
   constructor(props) {
