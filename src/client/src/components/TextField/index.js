@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class TextField extends Component {
   render() {
     const {
-      ref,
+      setRef,
       style,
       type, 
       placeholder, 
@@ -33,7 +33,7 @@ class TextField extends Component {
     return (
       <div style={style}>
         <input
-          ref={ref}
+          ref={setRef}
           type={type || 'text'} 
           className={className}
           style={inputStyle}

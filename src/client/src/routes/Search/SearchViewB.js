@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import ReactTouchEvents from 'react-touch-events';
 import cx from 'classnames';
 import { Card, Chip, Tab } from 'unify-react-mobile';
 import * as _ from 'lodash';
@@ -19,6 +18,7 @@ class Search extends Component {
     super(props);
 
     this.handleSearchSubmit = _.debounce(this.handleSearchSubmit, 500, { leading: true });
+    this.lastScrollTop = 0;
   }
 
   state = {
@@ -29,6 +29,14 @@ class Search extends Component {
     submittedKeyword: '',
     result: {},
     scrollingDown: false,
+  }
+
+  setSearchResultContainerRef = e => {
+    this.searchResultContainer = e;
+  }
+  
+  setSearchInputRef = e => {
+    this.searchInput = e;
   }
 
   handleSearchChange = e => {
@@ -48,6 +56,7 @@ class Search extends Component {
 
     if (!keyword || loading) return false;
 
+    this.searchInput.blur();
     this.setState({ loading: true, submittedKeyword: keyword, result: {}, activeTabIndex: 0 });
     
     Promise.all([
@@ -94,20 +103,16 @@ class Search extends Component {
     this.setState({ activeTabIndex: item.index || 0 });
   }
 
-  handleProductWheel = e => {
-    if (e.deltaY > 0) {
-      if (!this.state.scrollingDown) this.setState({ scrollingDown: true });
-    } else {
-      if (this.state.scrollingDown) this.setState({ scrollingDown: false });
-    }
-  }
+  handleProductScroll = e => {
+    const currentScrollTop = this.searchResultContainer.pageYOffset || this.searchResultContainer.scrollTop;
 
-  handleProductSwipe = direction => {
-    switch (direction) {
-      case 'top': this.handleProductWheel({ deltaY: 1 }); break;
-      case 'bottom': this.handleProductWheel({ deltaY: -1 }); break;
-      default: break;
+    if (this.lastScrollTop > currentScrollTop) {
+      if (this.state.scrollingDown) this.setState({ scrollingDown: false });
+    } else {
+      if (!this.state.scrollingDown) this.setState({ scrollingDown: true });
     }
+
+    this.lastScrollTop = currentScrollTop;
   }
 
   renderEmptyProduct() {
@@ -193,7 +198,10 @@ class Search extends Component {
           indexActive={this.state.activeTabIndex}
           onItemClick={this.handleChangeResultTab}
         />
-        <div className={searchResultContainerClassnames} onWheel={this.handleProductWheel}>
+        <div 
+          className={searchResultContainerClassnames} 
+          ref={this.setSearchResultContainerRef}
+          onScroll={this.handleProductScroll}>
           {/* <div style={chipContainerStyle}>
             <Chip active>Dari termurah</Chip>
             <Chip>Dari termahal</Chip>
@@ -201,11 +209,7 @@ class Search extends Component {
             <Chip>Dari termahal</Chip>
             <Chip>Dari termahal</Chip>
           </div> */}
-          <ReactTouchEvents onSwipe={this.handleProductSwipe}>
-            <div style={{ height: '100%' }}>
-              {products || this.renderEmptyProduct()}
-            </div>
-          </ReactTouchEvents>
+          {products || this.renderEmptyProduct()}
         </div>
       </div>
     )
@@ -222,6 +226,7 @@ class Search extends Component {
         <div>
           <Card container>
             <TextField
+              setRef={this.setSearchInputRef}
               type="text"
               className='search-input'
               placeholder="Cari produk di sini..." 
