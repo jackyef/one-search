@@ -48,7 +48,7 @@ class Search extends Component {
 
     if (!keyword || loading) return false;
 
-    this.setState({ loading: true, submittedKeyword: keyword, result: {} });
+    this.setState({ loading: true, submittedKeyword: keyword, result: {}, activeTabIndex: 0 });
     
     Promise.all([
       axios.get(`/tkpd-ace?keyword=${this.state.keyword}`, {
@@ -202,7 +202,7 @@ class Search extends Component {
             <Chip>Dari termahal</Chip>
           </div> */}
           <ReactTouchEvents onSwipe={this.handleProductSwipe}>
-            <div>
+            <div style={{ height: '100%' }}>
               {products || this.renderEmptyProduct()}
             </div>
           </ReactTouchEvents>
