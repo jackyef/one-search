@@ -11,3 +11,13 @@ a {
 a:hover, a:visited {
   color: rgb(36, 151, 43);
 }
+
+.app-container {
+  height: 100vh;
+  overflow: hidden;
+}
+
+.app-content-container {
+  height: calc(100vh - 72px);
+  overflow-y: scroll;
+}

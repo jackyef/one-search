@@ -5,7 +5,7 @@ import 'unify-react-mobile/build/styles.css';
 class Home extends Component {
   render() {
     return (
-      <div>
+      <div className='app-content-container'>
         <Card container subheader={`Selamat datang di Jackyef's OneSearch`}> 
           <Card container>
             Ini adalah sebuah mobile web-app yang dapat anda gunakan untuk mencari produk dari 4 online marketplace yang ada di Indonesia sekaligus!

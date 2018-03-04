@@ -77,7 +77,7 @@ class App extends Component {
     }
 
     return (
-      <div>
+      <div className='app-container'>
         <Header 
           title={`${activeContentName} | One Search`}
           onBack={false}

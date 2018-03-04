@@ -1,3 +1,12 @@
+.search-view-container {
+  transition: .3s ease-in-out;
+  transform: translateY(0px);
+}
+
+.search-view-container--scrolled-down {
+  transform: translateY(-92px);
+}
+
 .search-input {
   font-size: 16px;
   width: 100%;
@@ -23,9 +32,14 @@
 
 .search-result-container--products--b {
   height: calc(100vh - 262px);
+  transition: .3s ease-in-out;
   overflow-y: scroll;
   -webkit-box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.35);
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.35);
+}
+
+.search-result-container--products--b--scrolled-down {
+  height: calc(100vh - 170px);
 }
 
 .search-result-product--container {

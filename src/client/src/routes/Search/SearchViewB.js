@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { Card, Tab } from 'unify-react-mobile';
+import ReactTouchEvents from 'react-touch-events';
+import cx from 'classnames';
+import { Card, Chip, Tab } from 'unify-react-mobile';
 import * as _ from 'lodash';
 import axios from 'axios';
 import 'unify-react-mobile/build/styles.css';
@@ -10,7 +12,7 @@ import ImageElement from '../../components/ImageElement';
 import searchIcon from './assets/ic_search_black_24px.svg';
 import './styles.css';
 
-// import mockProducts from './__mocks__/productsB';
+import mockProducts from './__mocks__/productsB';
 
 class Search extends Component {
   constructor(props) {
@@ -26,6 +28,7 @@ class Search extends Component {
     error: false,
     submittedKeyword: '',
     result: {},
+    scrollingDown: false,
   }
 
   handleSearchChange = e => {
@@ -91,6 +94,22 @@ class Search extends Component {
     this.setState({ activeTabIndex: item.index || 0 });
   }
 
+  handleProductWheel = e => {
+    if (e.deltaY > 0) {
+      if (!this.state.scrollingDown) this.setState({ scrollingDown: true });
+    } else {
+      if (this.state.scrollingDown) this.setState({ scrollingDown: false });
+    }
+  }
+
+  handleProductSwipe = direction => {
+    switch (direction) {
+      case 'top': this.handleProductWheel({ deltaY: 1 }); break;
+      case 'bottom': this.handleProductWheel({ deltaY: -1 }); break;
+      default: break;
+    }
+  }
+
   renderEmptyProduct() {
     const { loading } = this.state;
 
@@ -102,7 +121,7 @@ class Search extends Component {
   }
 
   renderResult() {
-    let { result, activeTabIndex } = this.state;
+    let { result, activeTabIndex, scrollingDown } = this.state;
     // result = mockProducts;
 
     let tabItems = [];
@@ -156,6 +175,17 @@ class Search extends Component {
       })
     }
 
+    const chipContainerStyle = {
+      overflowX: 'scroll',
+      whiteSpace: 'nowrap',
+      fontSize: '12px',
+      margin: '12px 8px 0 8px',
+    }
+
+    const searchResultContainerClassnames = cx('search-result-container--products--b',{
+      'search-result-container--products--b--scrolled-down': scrollingDown,
+    });
+
     return (
       <div>
         <Tab secondary
@@ -163,26 +193,46 @@ class Search extends Component {
           indexActive={this.state.activeTabIndex}
           onItemClick={this.handleChangeResultTab}
         />
-        <div className='search-result-container--products--b'>{products || this.renderEmptyProduct()}</div>
+        <div className={searchResultContainerClassnames} onWheel={this.handleProductWheel}>
+          {/* <div style={chipContainerStyle}>
+            <Chip active>Dari termurah</Chip>
+            <Chip>Dari termahal</Chip>
+            <Chip>Dari termahal</Chip>
+            <Chip>Dari termahal</Chip>
+            <Chip>Dari termahal</Chip>
+          </div> */}
+          <ReactTouchEvents onSwipe={this.handleProductSwipe}>
+            <div>
+              {products || this.renderEmptyProduct()}
+            </div>
+          </ReactTouchEvents>
+        </div>
       </div>
     )
   }
 
   render() {
+    const { scrollingDown } = this.state;
+    const containerClassnames = cx('search-view-container', {
+      'search-view-container--scrolled-down': scrollingDown,
+    });
+    
     return (
-      <div>
-        <Card container>
-          <TextField
-            type="text" 
-            className='search-input'
-            placeholder="Cari produk di sini..." 
-            onChange={this.handleSearchChange}
-            onKeyDown={this.handleSearchKeyDown} 
-            hasButton
-            buttonIcon={searchIcon}
-            buttonAction={this.handleSearchSubmit}
-          />
-        </Card>
+      <div className={containerClassnames}>
+        <div>
+          <Card container>
+            <TextField
+              type="text"
+              className='search-input'
+              placeholder="Cari produk di sini..." 
+              onChange={this.handleSearchChange}
+              onKeyDown={this.handleSearchKeyDown} 
+              hasButton
+              buttonIcon={searchIcon}
+              buttonAction={this.handleSearchSubmit}
+            />
+          </Card>
+        </div>
         {this.renderResult()}
       </div>
     );

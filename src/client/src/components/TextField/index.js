@@ -4,6 +4,7 @@ class TextField extends Component {
   render() {
     const {
       ref,
+      style,
       type, 
       placeholder, 
       onChange, 
@@ -30,7 +31,7 @@ class TextField extends Component {
     }
 
     return (
-      <div>
+      <div style={style}>
         <input
           ref={ref}
           type={type || 'text'} 
